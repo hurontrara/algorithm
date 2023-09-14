@@ -1,6 +1,6 @@
-import java.util.Scanner;
+package reference;
 
-public class Main {
+public class Rotation {
     public static void main(String[] args) {
 
         int[][] matrix = {
