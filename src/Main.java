@@ -1,15 +1,15 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import javax.swing.*;
+import java.util.HashMap;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        int i = 11;
-        int j = i++;
-        System.out.println("i = " + i);
+        HashMap<String, Integer> hashMap = new HashMap<>();
 
+        hashMap.put("k", 3);
+        hashMap.put("k", 4);
 
+        System.out.println("hashMap.get(KeyStroke) = " + hashMap.get("k"));
     }
 }
