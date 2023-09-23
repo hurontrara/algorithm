@@ -1,15 +1,17 @@
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        HashMap<String, Integer> hashMap = new HashMap<>();
 
-        hashMap.put("k", 3);
-        hashMap.put("k", 4);
+        boolean[] booleanArray = new boolean[3];
 
-        System.out.println("hashMap.get(KeyStroke) = " + hashMap.get("k"));
+        for (boolean b : booleanArray) {
+            System.out.println("b = " + b);
+        }
     }
 }
