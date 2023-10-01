@@ -7,13 +7,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        boolean boo1, boo2;
+        int[] array = new int[4];
 
-        boo1 = true;
-        System.out.printf("%s \n", boo1);
-
-        boo2 = (10 == 20);
-        System.out.printf("%s \n", boo2);
+        int i = array[-1];
 
     }
 
