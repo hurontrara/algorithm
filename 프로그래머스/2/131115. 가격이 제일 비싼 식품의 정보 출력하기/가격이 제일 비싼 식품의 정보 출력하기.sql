@@ -1,7 +1,8 @@
--- 코드를 입력하세요
-SELECT *
-FROM FOOD_PRODUCT
-WHERE PRICE = ( 
-    SELECT MAX(PRICE)
-    FROM FOOD_PRODUCT
+with max_price as (
+    select max(price) as price
+    from food_product
 )
+
+select *
+from food_product
+where price = (select price from max_price)
