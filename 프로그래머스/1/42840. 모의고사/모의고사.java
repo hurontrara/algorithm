@@ -1,66 +1,102 @@
 import java.util.*;
 
-class Solution {
-        
-    static int[] a = {1, 2, 3, 4, 5}; // 5
-    static int[] b = {2, 1, 2, 3, 2, 4, 2, 5}; // 8
-    static int[] c = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}; // 10
-    
-    static int aV, bV, cV = 0;
 
+
+class Solution {
+    
+    
     public List<Integer> solution(int[] answers) {
+        
+        List<Integer> firstList = init(1); List<Integer> secondList = init(2); List<Integer> thirdList = init(3);
+        
+        
+        return compare(answers, firstList, secondList, thirdList);
+        
+    }
+    
+    List<Integer> compare(int[] answers, List<Integer> firstList, List<Integer> secondList, List<Integer> thirdList) {
+        
+        int first = 0, second = 0, third = 0;
         
         for (int i = 0; i < answers.length; i++) {
             
-            if (a[i % 5] == answers[i])
-                aV++;
+            int answer = answers[i];
             
-            if (b[i % 8] == answers[i])
-                bV++;
+            if (answer == firstList.get(i)) {
+                first++;
+            }
             
-            if (c[i % 10] == answers[i])
-                cV++;
+            if (answer == secondList.get(i)) {
+                second++;
+            }
+
             
-            
+            if (answer == thirdList.get(i)) {
+                third++;
+            }
+    
+
+        
         }
         
-        List<Integer> answerArray = new ArrayList<>();
+        List<Integer> returnAnswer = new ArrayList<>();
         
-        if (aV > bV && aV > cV)
-            answerArray.add(1);
-        else if (bV > aV && bV > cV)
-            answerArray.add(2);
-        else if (cV > aV && cV > bV)
-            answerArray.add(3);
+        int max = Math.max(first, Math.max(second, third));
         
-        else if (bV == aV && bV > cV) {
-            answerArray.add(1);
-            answerArray.add(2);
-
+        if (first == max) {
+            returnAnswer.add(1);
+        }
+        if (second == max) {
+            returnAnswer.add(2);
+        }
+        if (third == max) {
+            returnAnswer.add(3);
         }
 
-        else if (bV > aV && bV == cV) {
-                        answerArray.add(2);
-            answerArray.add(3);
-
+        return returnAnswer;
+        
+    }
+    
+    
+    
+    List<Integer> init(int value) {
+        
+        List<Integer> initList = new ArrayList<>();
+        
+        if (value == 1) {
+            
+            for (int i = 0; i < 2000; i++) {
+                
+                
+                initList.addAll(Arrays.asList(1,2,3,4,5));
+                
+            }
+            
         }
-
-        else if (bV < aV && aV == cV) {
-                        answerArray.add(1);
-            answerArray.add(3);
+        else if (value == 2) {
+            
+            for (int i = 0; i < 1500; i++) {
+                
+                initList.addAll(Arrays.asList(2,1,2,3,2,4,2,5));
+                
+            }
 
         }
         else {
-                        answerArray.add(1);
-            answerArray.add(2);
-            answerArray.add(3);
+            
+            for (int i = 0; i < 1000; i++) {
+                
+                initList.addAll(Arrays.asList(3,3,1,1,2,2,4,4,5,5));
 
+            }            
+            
         }
-
-
-
         
-        return answerArray;
+        return initList;
+        
         
     }
+    
+    
+    
 }
