@@ -2,85 +2,77 @@ import java.util.*;
 
 class Solution {
     
-    static int[] visited;
-    static List<Integer> tmpList = new ArrayList<>();
+    boolean[] visited;
     
-    static int[] indexList;
+    List<int[]> cList = new ArrayList<>();
     
-    static int answer = 0;
-    
-    static int[][] dungeonGlobal;
+    int max;
     
     public int solution(int k, int[][] dungeons) {
         
-        visited = new int[dungeons.length];
-        indexList = new int[dungeons.length];
-        
-        dungeonGlobal = dungeons;
-        
-        for (int i = 0; i < dungeonGlobal.length; i++) {
-            indexList[i] = i;
-        }
-        
-        recursive(k);
-        
-        return answer;
+        visited = new boolean[dungeons.length];
         
         
+        permutation(k, dungeons);
         
+        
+        return max;
     }
     
-    static void recursive(int k) {
+    void calculate(int k) {
         
-        if (tmpList.size() == dungeonGlobal.length) {
+        int localK = k;
+        int cnt = 0;
+        
+        for (int[] dungeon : cList) {
             
-            
-            int cnt = 0;
-            int localK = k;
-            for (int i = 0; i < dungeonGlobal.length; i++) {
+            if (localK >= dungeon[0]) {
                 
-                int[] localDungeon = dungeonGlobal[tmpList.get(i)];
-                
-                if (!canGo(localDungeon, localK)) {
-                
-                    break;
-                                        
-                }
-                
+                localK -= dungeon[1];
                 cnt++;
-                localK -= localDungeon[1];
-
+                
+                
+            } else {
+                
+                break;
             }
             
-            answer = Math.max(answer, cnt);
-            
-            return;
-        
-            
         }
         
+        max = Math.max(max, cnt);
         
-        for (int i = 0; i < dungeonGlobal.length; i++) {
-            
-            if (visited[i] == 1)
-                continue;
-            
-            tmpList.add(i);
-            visited[i] = 1;
-            
-            recursive(k);
-            
-            tmpList.remove(tmpList.size() - 1);
-            visited[i] = 0;
-            
-        }
+        
         
     }
     
-    static boolean canGo(int[] dungeon, int k) {
+    
+    void permutation(int k, int[][] dungeons) {
+        
+        if (cList.size() == dungeons.length) {
+            
+            calculate(k);
+            
+            return;
+            
+        }
         
         
-        return k >= dungeon[0];
+        for (int i = 0; i < visited.length; i++) {
+            
+            if (!visited[i]) {
+                
+                visited[i] = true;
+                cList.add(dungeons[i]);
+                permutation(k, dungeons);
+                cList.remove(cList.size() - 1);
+                visited[i] = false;
+                
+                
+            }
+            
+            
+        }
+        
         
     }
     
