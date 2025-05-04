@@ -2,57 +2,62 @@ import java.util.*;
 
 class Solution {
     
-    static HashMap<String, Integer> hashMap = new HashMap<>();
+    String[] words;
     
-    static List<Integer> tmpList = new ArrayList<>();
+    HashMap<String, Integer> dict = new HashMap<>();
     
-    static int cnt = 0;
+    int cnt = 1;
     
-    static StringBuilder sb = new StringBuilder();
+    List<String> currentList = new ArrayList<>();
     
     public int solution(String word) {
         
-        recursive();
-                
-        return hashMap.get(word);
+        words = new String[]{"A", "E", "I", "O", "U"};
         
+        permutation();
+        
+        return dict.get(word);
         
     }
     
-    static void recursive() {
+    void permutation() {
         
-        
-        for (int i = 1; i <= 5; i++) {
+        if (currentList.size() == 6) {
             
-            tmpList.add(i);
-            marking();
-            
-            if (tmpList.size() < 5)
-                recursive();
-            
-            tmpList.remove(tmpList.size() - 1);
-            
+            return;
             
         }
         
-    }
-    
-    static void marking() {
+        if (currentList.size() > 0) 
+            dict.put(currentListToString(), cnt++);
         
-        cnt++;
         
-        for (int value : tmpList) {
+        for (int i = 0; i < 5; i++) {
             
-            String stringValue = value == 1 ? "A" : value == 2 ? "E" : value == 3 ? "I" : value == 4 ? "O" : "U";
-            
-            sb.append(stringValue);
+            currentList.add(words[i]);
+            permutation();
+            currentList.remove(currentList.size() - 1);
             
         }
         
-        hashMap.put(sb.toString(), cnt);
-    
-        sb.setLength(0);
+        
     }
+    
+    String currentListToString() {
+        
+        String value = "";
+        
+        for (String str : currentList) {
+            
+            value += str;
+            
+        }
+        
+        return value;
+        
+        
+    }
+    
     
     
     
