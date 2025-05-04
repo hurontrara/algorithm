@@ -1,92 +1,44 @@
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-class Solution {
-    
-    static List<Character> tmpList = new ArrayList<>();
-    static int size;
-    static int[] visited;
-    static String string;
-    
-    static HashSet<Integer> hashSet = new HashSet<>();
-    
-    static int answer = 0;
-    
-    static StringBuilder sb = new StringBuilder();
-    
+public class Solution {
+
     public int solution(String numbers) {
-        
-        size = numbers.length();
-        visited = new int[size];
-        string = numbers;
-        
-        for (int i = 1; i <= numbers.length(); i++) {
-            
-            recursive(i);   
-            
-        }
-        
-        
-        return answer;
-        
-    }
-    
-    static void recursive(int count) {
-        
-        if (tmpList.size() == count) {
-            
-            
-            for (char character : tmpList) {
-                
-                sb.append(character);
-                
+        Set<Integer> uniqueNumbers = new HashSet<>();
+        boolean[] visited = new boolean[numbers.length()];
+
+        generatePermutations("", numbers, visited, uniqueNumbers);
+
+        int count = 0;
+        for (int num : uniqueNumbers) {
+            if (isPrime(num)) {
+                count++;
             }
-            
-            String localString = sb.toString(); sb.setLength(0);
-            
-            answer += isPrime(Integer.parseInt(localString));
-            
-            return;
-        }
-        
-        for (int i = 0; i < size; i++) {
-            
-            if (visited[i] == 1)
-                continue;
-            
-            visited[i] = 1;
-            tmpList.add(string.charAt(i));
-            
-            recursive(count);
-            
-            visited[i] = 0;
-            tmpList.remove(tmpList.size() - 1);
-            
-            
         }
 
-        
+        return count;
     }
-    
-    static int isPrime(Integer value) {
-        
-        if (value <= 1 || hashSet.contains(value)) {
-            return 0;
+
+    private void generatePermutations(String current, String numbers, boolean[] visited, Set<Integer> result) {
+        if (!current.isEmpty()) {
+            result.add(Integer.parseInt(current));
         }
-        
-        
-        for (int i = 2; i <= (int) Math.sqrt(value); i++) {
-            
-            if (value % i == 0)
-                return 0;
-            
+
+        for (int i = 0; i < numbers.length(); i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                generatePermutations(current + numbers.charAt(i), numbers, visited, result);
+                visited[i] = false; // 백트래킹
+            }
         }
-        
-        hashSet.add(value);
-        
-        return 1;
-        
-        
     }
-    
-    
+
+    private boolean isPrime(int num) {
+        if (num < 2) return false;
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+
 }
