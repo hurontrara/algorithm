@@ -1,66 +1,58 @@
 import java.util.*;
 
-class Number implements Comparable<Number> {
+class Point implements Comparable<Point> {
     
-    int value;
+    int number;
     
-    Number(int value) {
-        this.value = value;
-    }
-    
-    
-    @Override
-    public int compareTo(Number number) {
+    Point(int number) {
         
-        int left = Integer.parseInt(String.valueOf(this.value) + String.valueOf(number.value));
-        int right = Integer.parseInt(String.valueOf(number.value) + String.valueOf(this.value));
-        
-
-        return right - left;
+        this.number = number;
         
     }
     
+    public int compareTo(Point point) {
+        
+        int a = Integer.parseInt(String.valueOf(this.number) + String.valueOf(point.number));
+        int b = Integer.parseInt(String.valueOf(point.number) + String.valueOf(this.number));
+        
+        if (a > b)
+            return -1;
+        else if (a == b)
+            return 0;
+        else
+            return 1;
+        
+    }
     
 }
-
 
 class Solution {
     
-    static Number[] numberArray;
-    static StringBuilder sb = new StringBuilder();
+    List<Point> pList = new ArrayList<>();
+    String answer = "";
     
     public String solution(int[] numbers) {
         
-        numberArray = new Number[numbers.length];
+        for (int number : numbers) {
+            pList.add(new Point(number));
+        }
         
-        for (int i = 0; i < numbers.length; i++) {
+        Collections.sort(pList);
+        
+        for (Point point : pList) {
             
-            numberArray[i] = new Number(numbers[i]);
+            answer += point.number;
             
         }
         
-        Arrays.sort(numberArray);
+        if (answer.charAt(0) == '0')
+            return "0";
         
-        for (Number number : numberArray) {
-            
-            sb.append(number.value);
-            
-        }
-        
-        String string = sb.toString();
-        
-        
-        
-        return string.charAt(0) == '0' ? "0" : string;
-        
-        
+        return answer;
         
         
         
     }
     
     
-    
 }
-
-// 
