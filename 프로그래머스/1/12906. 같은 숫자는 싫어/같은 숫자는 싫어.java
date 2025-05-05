@@ -2,32 +2,27 @@ import java.util.*;
 
 public class Solution {
     
-    static Stack<Integer> stack = new Stack<>();
-    static int[] answer;
     
-    public int[] solution(int[] arr) {
+    List<Integer> answer = new ArrayList<>();
+    
+    int state = -1;
+    
+    public List<Integer> solution(int []arr) {
         
-        stack.add(arr[0]);
-        
-        for (int i = 1; i < arr.length; i++) {
+        for (int value : arr) {
             
-            if (arr[i] != stack.peek()) {
-                stack.add(arr[i]);
-            }
+            if (state == value) {
+                continue;
+            } 
             
-        }
-        
-        answer = new int[stack.size()];
-        
-        for (int i = answer.length - 1; i >= 0; i--) {
+            state = value;
+            answer.add(value);
             
-            answer[i] = stack.pop();
             
         }
         
         return answer;
-        
-        
+
     }
     
     
