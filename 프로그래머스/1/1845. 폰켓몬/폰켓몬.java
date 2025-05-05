@@ -1,18 +1,21 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
     
-    static HashSet<Integer> hashSet = new HashSet<>();
-        
+    HashSet<Integer> hashSet = new HashSet<>();
+    
     public int solution(int[] nums) {
         
-        for (int i = 0; i < nums.length; i++) {
-            hashSet.add(nums[i]);
+        int choice = nums.length / 2;
+        
+        for (int num : nums) {
+            
+            hashSet.add(num);
+            
         }
         
-        return Math.min(nums.length / 2, hashSet.size());
-            
+        return Math.min(hashSet.size(), choice);
+        
         
     }
     
