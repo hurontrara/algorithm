@@ -1,30 +1,26 @@
+import java.util.*;
+
 class Solution {
     
-    static int value = 0;
+    int state;
     
     boolean solution(String s) {
         
-        char[] array = s.toCharArray();
-        
-        for (char input : array) {
+        for (int i = 0; i < s.length(); i++) {
             
-            if (input == '(')
-                value++;
-            else
-                value--;
+            char letter = s.charAt(i);
             
-            if (value < 0)
+            state = (letter == '(') ? state + 1 : state - 1;
+                        
+            if (state < 0)
                 return false;
             
         }
         
-        if (value != 0)
+        if (state > 0)
             return false;
         
         return true;
         
-        
     }
 }
-
-// 끝났을 때 양수이거나, 중간에 음수인 경우
