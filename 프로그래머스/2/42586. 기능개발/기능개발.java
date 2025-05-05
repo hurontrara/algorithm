@@ -2,48 +2,52 @@ import java.util.*;
 
 class Solution {
     
-    static Stack<Integer> stack = new Stack<>();
-    static int[] baseArray;
+    List<Integer> tList = new ArrayList<>();
     
-    public Stack<Integer> solution(int[] progresses, int[] speeds) {
+    List<Integer> answer = new ArrayList<>();
+    
+    public List<Integer> solution(int[] progresses, int[] speeds) {
         
-        baseArray = new int[speeds.length];
-        
-        for (int i = 0; i < baseArray.length; i++) {
+        for (int i = 0; i < speeds.length; i++) {
             
-            baseArray[i] = (int) Math.ceil(((100 - progresses[i]) / (float) speeds[i]));
+            int work = 100 - progresses[i];
             
-            if (i >= 1 && baseArray[i] < baseArray[i - 1]) {
-                baseArray[i] = baseArray[i - 1];
-            }
-            
-        }
-        
+            int day = 0;
+            if (work % speeds[i] == 0) {
                 
-        stack.add(1);
-        
-        for (int i = 1; i < baseArray.length; i++) {
-            
-            int left = baseArray[i - 1];
-            int right = baseArray[i];
-            
-            
-            if (left == right) {
-                stack.add(stack.pop() + 1);
+                day = work / speeds[i];
+                
             } else {
-                stack.add(1);
+                
+                day = (work / speeds[i]) + 1;
+                
+            }
+            
+            tList.add(day);
+            
+        }
+        
+        int present = -1;
+        
+        for (int value : tList) {
+            
+            if (value > present) {
+                
+                answer.add(1);
+                present = value;
+                
+            } else {
+                
+                answer.set(answer.size() - 1, answer.get(answer.size() - 1) + 1);
+                
             }
             
         }
         
-        return stack;
         
-        
+        return answer;
     }
+    
+    
+    
 }
-
-// [7, 3, 9] -> [7, 7, 9]
-// [5, 10, 1, 1, 20, 1]
-
-// 1 넣고 시작 -> 왼쪽께 크거나 같으면 꺼내서 +1 하고 넣기
-// 왼쪽께 작으면 1넣기
