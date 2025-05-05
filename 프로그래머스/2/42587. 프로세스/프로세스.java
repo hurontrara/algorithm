@@ -1,64 +1,69 @@
 import java.util.*;
 
-class Ball {
+class Point {
     
-    int priority;
+    int number;
     int location;
     
-    Ball(int priority, int location) {
+    Point(int number, int location) {
         
-        this.priority = priority;
+        this.number = number;
         this.location = location;
-        
     }
     
+    
 }
-
 
 class Solution {
     
-    static PriorityQueue<Integer> pq = new PriorityQueue<>();
-    static Queue<Ball> queue = new LinkedList<>();
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
+    Queue<Point> queue = new LinkedList<>();
+    
+    int answer = 1;
     
     public int solution(int[] priorities, int location) {
         
-        for (int i = 0; i < priorities.length; i++) {
+        int local = 0;
+        for (int value : priorities) {
             
-            queue.add(new Ball(priorities[i], i));
-            pq.add(-1 * priorities[i]);
+            pq.add(-1 * value);
+            queue.add(new Point(value, local++));
+            
             
         }
         
-        for (int i = 1; i < priorities.length + 1; i++) {
+        
+        
+        for (int i = 1; i <= priorities.length; i++) {
             
-            int targetPriority = -1 * pq.poll();
-            
-            Ball ball = null;
+            int value = pq.poll() * -1;
             
             while (true) {
                 
-                ball = queue.poll();
+                Point point = queue.poll();
                 
-                if (ball.priority == targetPriority) {
-                    
-                    break;
-                    
+                if (point.number != value) {
+                    queue.add(point);
                 }
-                
-                queue.add(ball);
+                else {
+                    
+                    if (point.location == location) {
+                        
+                        return answer;
+                    }
+                    
+                    answer++;
+                    break;
+                }
                 
             }
             
-            if (ball.location == location) {
-                
-                return i;
-            }
             
             
             
         }
         
-        return 3;
+        return 0;
         
         
         
@@ -67,8 +72,19 @@ class Solution {
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
-
-
-// 지금 원소가 남은 원소들 중에서 가장 큰건지는 어떻게 알아? -> 우선순위 큐
-// 우선순위 큐에서 꺼내고 -> 객체들끼리 꺼내고 넣고 반복
