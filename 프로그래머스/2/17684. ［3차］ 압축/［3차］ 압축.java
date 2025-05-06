@@ -1,59 +1,71 @@
 import java.util.*;
 
+
+// 1. 사전에 있는 것까지 전진
+// 2. 사전 추가 및 출력
+
 class Solution {
     
-    static int index = 27;
-    static HashMap<String, Integer> hashMap = new HashMap<>();
+    HashMap<String, Integer> hashMap = new HashMap<>();
+    int index = 1;
     
-    static List<Integer> answer = new ArrayList<>();
-        
+    String tmp = "";
+    List<Integer> aList = new ArrayList<>();
+    
     public List<Integer> solution(String msg) {
+         
+        init();
         
-        for (int i = 65; i < 97; i++) {
-            
-            char charAlphabet = (char) i;
-            
-            hashMap.put(String.valueOf(charAlphabet), i - 64);
-            
-        }
+        process(msg);
         
-        String localString = "";
+        return aList;
+        
+        
+    }
+    
+    void process(String msg) {
+        
         for (int i = 0; i < msg.length(); i++) {
             
-            localString += String.valueOf(msg.charAt(i));
+            tmp += String.valueOf(msg.charAt(i));
             
-            if (i < msg.length() - 1 ) {
+            if (i == msg.length() - 1) {
                 
-                    if (hashMap.containsKey(localString + String.valueOf(msg.charAt(i + 1)))) {
+                aList.add(hashMap.get(tmp));
+                return;
                 
-                        continue;
-                
-                    } else {
-                        
-                        hashMap.put(localString + String.valueOf(msg.charAt(i + 1)), index++);
-                        answer.add(hashMap.get(localString));
-                        localString = "";
-                         
-
-                    }
             }
             
+            String nextWord = String.valueOf(msg.charAt(i + 1));
+            String sum = tmp + nextWord;
+            
+            
+            if (hashMap.keySet().contains(sum)) {
+                continue;
+            } else {
+                
+                aList.add(hashMap.get(tmp));
+                tmp = "";
+                hashMap.put(sum, index++);
+                
+            }
+            
+            
         }
         
-        if (!localString.equals("")) {
+        
+    }
+    
+    
+    void init() {
+        
+        for (int i = 65; i < 91; i++) {
             
-            answer.add(hashMap.get(localString));
-            
+            hashMap.put(String.valueOf((char) i), index++);
             
         }
         
-        
-        
-        return answer;
     }
     
     
 }
-
-// 1. 압축 할 수 있는 것 찾기
-// 2. 압축 및 출력
