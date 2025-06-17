@@ -1,85 +1,74 @@
 import java.util.*;
 
 class Solution {
-    
-    String string;
-    int answer;
-    
+        
+    int answer = 0;
     Stack<Character> stack = new Stack<>();
+    
+    static String a;
     
     public int solution(String s) {
         
-        string = s;
+        a = s;
         
-        for (int i = 0; i < s.length(); i++) {
+        if (s.length() == 1) return 0;
+        
+        for (int i = 0; i < a.length(); i++) {
             
-            rotate();
+            circulate();
+            
             check();
-            
         }
         
         return answer;
-        
-                
-        
-        
-    }
-    
-    void rotate() {
-        
-        string = string.substring(1, string.length()) + String.valueOf(string.charAt(0));
-        
     }
     
     void check() {
         
+        stack.clear();
         
-        
-        for (int i = 0; i < string.length(); i++) {
+        for (int i = 0; i < a.length(); i++) {
             
-            char value = string.charAt(i);
-            
-            if (value == '[' || value == '(' || value == '{') { 
-                
-                stack.add(value); 
-                continue;
-            
+            char value = a.charAt(i);
+            if (value == '[') {
+                stack.add(value);
             }
-            
-            if (value == ']') {
-                
-                if (stack.isEmpty() || stack.peek() != '[')
-                    return;
-                
-                stack.pop();
-                
+            else if (value == '(') {
+                stack.add(value);
             }
-            
-            if (value == '}') {
-                
-                if (stack.isEmpty() || stack.peek() != '{')
+            else if (value == '{') {
+                stack.add(value);
+            }
+            else if (value == ']') {
+                if (stack.isEmpty() || stack.peek() != '[') {
                     return;
-                
+                }
                 stack.pop();
-                
+            }
+            else if (value == ')') {
+                if (stack.isEmpty() || stack.peek() != '(') {
+                    return;
+                }
+                stack.pop();
+            }
+            else if (value == '}') {
+                if (stack.isEmpty() || stack.peek() != '{') {
+                    return;
+                }
+                stack.pop();
             }
 
-            if (value == ')') {
-                
-                if (stack.isEmpty() || stack.peek() != '(')
-                    return;
-                
-                stack.pop();
-                
-            }
-            
             
         }
         
-        if (stack.size() == 0)
-            answer++;
+        if (stack.size() == 0) answer++;
         
     }
     
+    void circulate() {
+        
+        a = a.substring(1, a.length()) + String.valueOf(a.charAt(0));
+        
+    }
     
 }
