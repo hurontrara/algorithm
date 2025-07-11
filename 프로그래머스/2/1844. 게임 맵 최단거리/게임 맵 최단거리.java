@@ -1,89 +1,76 @@
 import java.util.*;
 
-class Position {
+class Point {
     
     int x;
     int y;
-    int state;
+    int distance;
     
-    Position(int x, int y, int state) {
+    Point(int x, int y, int distance) {
         
         this.x = x;
         this.y = y;
-        this.state = state;
+        this.distance = distance;
         
     }
     
-    
 }
-
-
 
 class Solution {
     
     boolean[][] visited;
-    
-    int globalState;
-    
-    boolean end = false;
-    
-    int answer = -1;
-    
-    Queue<Position> queue = new LinkedList<>();
+    Queue<Point> queue = new LinkedList<>();
     
     int[] dx = {-1, 1, 0, 0};
     int[] dy = {0, 0, -1, 1};
     
+    int globalRow, globalCol;
+    
     public int solution(int[][] maps) {
         
-        int row = maps.length;
-        int col = maps[0].length;
-        visited = new boolean[row][col];
+        // 0. 초기 세팅
+        globalRow = maps.length;
+        globalCol = maps[0].length;
+        visited = new boolean[globalRow][globalCol];
         
-        queue.add(new Position(0, 0, 1));
+        // 1. 로직 초기화
         visited[0][0] = true;
+        queue.add(new Point(0, 0, 1));
         
-        while (!queue.isEmpty() && !end) {
+        // 2. 큐 굴리기
+        while (!queue.isEmpty()) {
             
-            queueing(row, col, maps);
+            Point point = queue.poll();
             
-        }
-        
-        return answer;
-        
-    }
-    
-    void queueing(int row, int col, int[][] maps) {
-        
-        Position position = queue.poll();
-            
-        if (position.x == row - 1 && position.y == col - 1) {
-            
-            end = true;
-            answer = position.state;
-            
-            return;
-            
-        }
-        
-        for (int dir = 0; dir < 4; dir++) {
-            
-            int futureX = position.x + dx[dir];
-            int futureY = position.y + dy[dir];
-            
-            if (futureX >= 0 && futureX < row && futureY >= 0 && futureY < col && maps[futureX][futureY] == 1 && !visited[futureX][futureY]) {
-                
-                visited[futureX][futureY] = true;
-                queue.add(new Position(futureX, futureY, position.state + 1));
+            if (point.x == globalRow - 1 && point.y == globalCol - 1) {
+                                
+                return point.distance;
                 
             }
             
+            for (int dir = 0; dir < 4; dir++) {
+                
+                int postRow = point.x + dx[dir];
+                int postCol = point.y + dy[dir];
+                
+                if (check(postRow, postCol, maps)) {
+                    queue.add(new Point(postRow, postCol, point.distance + 1));
+                    visited[postRow][postCol] = true;
+                }
+                
+            }
             
         }
         
+        return -1;
         
         
-            
+    }
+    
+    boolean check(int row, int col, int[][] maps) {
+        
+        return row >= 0 && row < globalRow && col >= 0 & col < globalCol && visited[row][col] == false && maps[row][col] == 1;
+        
     }
     
     
